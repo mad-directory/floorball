@@ -3,19 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <title>Speiseplan</title>
+
 <style>
-body{font-family:Arial;margin:20px}
-.header{display:flex;justify-content:center;align-items:center;gap:20px;margin-bottom:20px}
-button{font-size:22px;padding:6px 12px;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
-.day{border:1px solid #ccc;border-radius:8px;padding:10px}
-.date{font-weight:bold;margin-bottom:10px}
-.today{background:#eee}
-.meal{padding:6px;border-radius:6px;margin-bottom:6px}
-.past{background:#ffb3b3}
-.next{background:#b6f5b6}
+
+body{
+font-family:Arial;
+margin:20px;
+}
+
+.header{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:20px;
+margin-bottom:20px;
+}
+
+button{
+font-size:22px;
+padding:6px 12px;
+cursor:pointer;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px;
+}
+
+.day{
+border:1px solid #ccc;
+border-radius:8px;
+padding:10px;
+}
+
+.date{
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.today{
+background:#eeeeee;
+}
+
+.meal{
+padding:6px;
+border-radius:6px;
+margin-bottom:6px;
+}
+
+.past{
+background:#ffb3b3;
+}
+
+.next{
+background:#b6f5b6;
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="header">
@@ -28,11 +75,12 @@ button{font-size:22px;padding:6px 12px;cursor:pointer}
 
 <script>
 
-// ==============================
-// HIER NUR DIE LISTE BEARBEITEN
-// ==============================
+////////////////////////////////////////////////////////////
+// HIER NUR DIE WOCHEN EINTRAGEN
+////////////////////////////////////////////////////////////
 
-const wochen=[
+const wochen = [
+
 {
 mittag_mo:"-",
 abend_mo:"Grammlknödel mit Sauerkraut",
@@ -84,9 +132,10 @@ next:""
 }
 ];
 
-// ==============================
+////////////////////////////////////////////////////////////
 
 const tage=["mo","di","mi","do","fr","sa","so"];
+
 let weekIndex=0;
 
 function changeWeek(offset){
@@ -109,7 +158,7 @@ plan.innerHTML="";
 const today=new Date();
 const monday=getMonday(today);
 
-const week=wochen[weekIndex];
+const week = wochen[((weekIndex % wochen.length) + wochen.length) % wochen.length];
 
 for(let i=0;i<7;i++){
 
@@ -128,7 +177,7 @@ div.classList.add("today");
 let date=document.createElement("div");
 date.className="date";
 
- date.innerText=dayDate.toLocaleDateString("de-DE",{
+date.innerText = dayDate.toLocaleDateString("de-DE",{
 weekday:"short",
 day:"2-digit",
 month:"2-digit"
@@ -140,13 +189,8 @@ m.className="meal";
 let a=document.createElement("div");
 a.className="meal";
 
-if(week){
-
-m.innerText=week["mittag_"+tag]||"";
-a.innerText=week["abend_"+tag]||"";
-
-let keyMid="mittag_"+tag;
-let keyAb="abend_"+tag;
+m.innerText=week["mittag_"+tag] || "";
+a.innerText=week["abend_"+tag] || "";
 
 if(weekIndex==0){
 
@@ -161,13 +205,13 @@ eveTime.setHours(18,0,0);
 if(midTime<now) m.classList.add("past");
 if(eveTime<now) a.classList.add("past");
 
+let keyMid="mittag_"+tag;
+let keyAb="abend_"+tag;
+
 if(week.next===keyMid) m.classList.add("next");
 if(week.next===keyAb) a.classList.add("next");
 
 }
-
-}
-
 
 div.appendChild(date);
 div.appendChild(m);
@@ -185,3 +229,5 @@ render();
 
 </body>
 </html>
+
+

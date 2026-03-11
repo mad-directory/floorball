@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Speiseplan</title>
+<style>
+body{font-family:Arial;margin:20px}
+.header{display:flex;justify-content:center;align-items:center;gap:20px;margin-bottom:20px}
+button{font-size:22px;padding:6px 12px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.day{border:1px solid #ccc;border-radius:8px;padding:10px}
+.date{font-weight:bold;margin-bottom:10px}
+.today{background:#eee}
+.meal{padding:6px;border-radius:6px;margin-bottom:6px}
+.past{background:#ffb3b3}
+.next{background:#b6f5b6}
+</style>
+</head>
+<body>
+
+<div class="header">
+<button onclick="changeWeek(-1)">⬅</button>
+<h2 id="weekLabel">Speiseplan</h2>
+<button onclick="changeWeek(1)">➡</button>
+</div>
+
+<div class="grid" id="plan"></div>
+
+<script>
+
+// ==============================
+// HIER NUR DIE LISTE BEARBEITEN
+// ==============================
+
+const wochen=[
+{
+mittag_mo:"Pasta",
+abend_mo:"Salat",
+
+mittag_di:"Reis",
+abend_di:"Suppe",
+
+mittag_mi:"Pizza",
+abend_mi:"Brotzeit",
+
+mittag_do:"Kartoffeln",
+abend_do:"Salat",
+
+mittag_fr:"Nudeln",
+abend_fr:"Omelette",
+
+mittag_sa:"Burger",
+abend_sa:"Salat",
+
+mittag_so:"Fisch",
+abend_so:"Brot",
+
+// hier bestimmst du selbst die nächste mahlzeit
+next:"mittag_mi"
+}
+];
+
+// ==============================
+
+const tage=["mo","di","mi","do","fr","sa","so"];
+let weekIndex=0;
+
+function changeWeek(offset){
+weekIndex+=offset;
+render();
+}
+
+function getMonday(date){
+let d=new Date(date);
+let day=d.getDay();
+let diff=d.getDate()-day+(day==0?-6:1);
+return new Date(d.setDate(diff));
+}
+
+function render(){
+
+const plan=document.getElementById("plan");
+plan.innerHTML="";
+
+const today=new Date();
+const monday=getMonday(today);
+
+const week=wochen[weekIndex];
+
+for(let i=0;i<7;i++){
+
+let dayDate=new Date(monday);
+dayDate.setDate(monday.getDate()+i+weekIndex*7);
+
+let tag=tage[i];
+
+let div=document.createElement("div");
+div.className="day";
+
+if(dayDate.toDateString()==today.toDateString() && weekIndex==0){
+div.classList.add("today");
+}
+
+let date=document.createElement("div");
+date.className="date";
+
+ date.innerText=dayDate.toLocaleDateString("de-DE",{
+weekday:"short",
+day:"2-digit",
+month:"2-digit"
+});
+
+let m=document.createElement("div");
+m.className="meal";
+
+let a=document.createElement("div");
+a.className="meal";
+
+if(week){
+
+m.innerText=week["mittag_"+tag]||"";
+a.innerText=week["abend_"+tag]||"";
+
+let keyMid="mittag_"+tag;
+let keyAb="abend_"+tag;
+
+if(weekIndex==0){
+
+const now=new Date();
+
+let midTime=new Date(dayDate);
+midTime.setHours(12,0,0);
+
+let eveTime=new Date(dayDate);
+eveTime.setHours(18,0,0);
+
+if(midTime<now) m.classList.add("past");
+if(eveTime<now) a.classList.add("past");
+
+if(week.next===keyMid) m.classList.add("next");
+if(week.next===keyAb) a.classList.add("next");
+
+}
+
+}
+
+
+div.appendChild(date);
+div.appendChild(m);
+div.appendChild(a);
+
+plan.appendChild(div);
+
+}
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>

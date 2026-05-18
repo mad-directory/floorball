@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trainingsübungen Galerie</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f3f4f6;
+      padding: 30px;
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .filters {
+      background: white;
+      padding: 25px;
+      border-radius: 25px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .result-count {
+      background: black;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: bold;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 50%;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .tag {
+      background: #f3f4f6;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+    }
+
+    .competency {
+      margin-bottom: 20px;
+    }
+
+    .competency small {
+      color: #6b7280;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .competency strong {
+      font-size: 18px;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: black;
+      color: white;
+      padding: 14px;
+      border-radius: 15px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .empty {
+      background: white;
+      padding: 60px;
+      text-align: center;
+      border-radius: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      font-size: 22px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+
+    <div class="filters">
+
+      <div class="filter-group">
+        <label>Feldspieler</label>
+        <select id="fieldPlayersFilter">
+          <option value="all">Alle</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Goalies</label>
+        <select id="goaliesFilter">
+          <option value="all">Alle</option>
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Kernkompetenz</label>
+        <select id="competencyFilter">
+          <option value="all">Alle</option>
+          <option value="Passen">Passen</option>
+          <option value="Schießen">Schießen</option>
+          <option value="Passen und Schießen">Passen und Schießen</option>
+          <option value="Spielaufbau">Spielaufbau</option>
+          <option value="Spielzüge">Spielzüge</option>
+          <option value="Formation">Formation</option>
+          <option value="Goalie">Goalie</option>
+          <option value="Ballführung">Ballführung</option>
+          <option value="Spiele">Spiele</option>
+          <option value="Sonstige">Sonstige</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Schwierigkeit</label>
+        <select id="difficultyFilter">
+          <option value="all">Alle</option>
+          <option value="u6">A</option>
+          <option value="u8-1">B1</option>
+          <option value="u8-2">B2</option>
+          <option value="u10-1">C1</option>
+          <option value="u10-2">C2</option>
+          <option value="u12-1">D1</option>
+          <option value="u12-2">D2</option>
+          <option value="u14-1">E1</option>
+          <option value="u14-2">E2</option>
+          <option value="u17">F1</option>
+          <option value="u19">F2</option>
+          <option value="main1">G1</option>
+          <option value="main2">G2</option>
+          <option value="main3">G3</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Spielfeldgröße</label>
+        <select id="fieldSizeFilter">
+          <option value="all">Alle</option>
+          <option value="KF">KF</option>
+          <option value="GF">GF</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="top-bar">
+      <h2>Gefilterte Übungen</h2>
+      <div class="result-count" id="resultCount">0 Ergebnisse</div>
+    </div>
+
+    <div class="gallery" id="gallery"></div>
+  </div>
+
+  <script>
+    const photos = [
+      {
+        title: 'Passübung Dreieck',
+        image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop',
+        fieldPlayers: 6,
+        goalies: 0,
+        competency: 'Passen',
+        difficulty: 3,
+        fieldSize: 'KF'
+      },
+      {
+        title: 'Torschuss mit Goalie',
+        image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1200&auto=format&fit=crop',
+        fieldPlayers: 8,
+        goalies: 1,
+        competency: 'Schießen',
+        difficulty: 5,
+        fieldSize: 'GF'
+      },
+      {
+        title: 'Spielaufbau unter Druck',
+        image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1200&auto=format&fit=crop',
+        fieldPlayers: 10,
+        goalies: 2,
+        competency: 'Spielaufbau',
+        difficulty: 6,
+        fieldSize: 'GF'
+      },
+      {
+        title: 'Ballführung Parcours',
+        image: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=1200&auto=format&fit=crop',
+        fieldPlayers: 4,
+        goalies: 0,
+        competency: 'Ballführung',
+        difficulty: 2,
+        fieldSize: 'KF'
+      },
+      {
+        title: 'Formation und Laufwege',
+        image: 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop',
+        fieldPlayers: 9,
+        goalies: 1,
+        competency: 'Formation',
+        difficulty: 4,
+        fieldSize: 'GF'
+      }
+    ];
+
+    const gallery = document.getElementById('gallery');
+    const resultCount = document.getElementById('resultCount');
+
+    const fieldPlayersFilter = document.getElementById('fieldPlayersFilter');
+    const goaliesFilter = document.getElementById('goaliesFilter');
+    const competencyFilter = document.getElementById('competencyFilter');
+    const difficultyFilter = document.getElementById('difficultyFilter');
+    const fieldSizeFilter = document.getElementById('fieldSizeFilter');
+
+    for (let i = 0; i <= 10; i++) {
+      fieldPlayersFilter.innerHTML += `<option value="${i}">${i}</option>`;
+    }
+
+   
+    function renderPhotos() {
+      const fieldPlayers = fieldPlayersFilter.value;
+      const goalies = goaliesFilter.value;
+      const competency = competencyFilter.value;
+      const difficulty = difficultyFilter.value;
+      const fieldSize = fieldSizeFilter.value;
+
+      const filtered = photos.filter(photo => {
+        return (
+          (fieldPlayers === 'all' || photo.fieldPlayers == fieldPlayers) &&
+          (goalies === 'all' || photo.goalies == goalies) &&
+          (competency === 'all' || photo.competency == competency) &&
+          (difficulty === 'all' || photo.difficulty == difficulty) &&
+          (fieldSize === 'all' || photo.fieldSize == fieldSize)
+        );
+      });
+
+      resultCount.textContent = `${filtered.length} Ergebnisse`;
+
+      if (filtered.length === 0) {
+        gallery.innerHTML = `
+          <div class="empty">
+            Keine Übungen gefunden.
+          </div>
+        `;
+        return;
+      }
+
+      gallery.innerHTML = filtered.map(photo => `
+        <div class="card">
+          <img src="${photo.image}" alt="${photo.title}">
+
+          <div class="card-content">
+            <h3>${photo.title}</h3>
+
+            <div class="tags">
+              <div class="tag">${photo.fieldPlayers} Feldspieler</div>
+              <div class="tag">${photo.goalies} Goalies</div>
+              <div class="tag">Schwierigkeit ${photo.difficulty}</div>
+              <div class="tag">${photo.fieldSize}</div>
+            </div>
+
+            <div class="competency">
+              <small>Kernkompetenz</small>
+              <strong>${photo.competency}</strong>
+            </div>
+
+            <a href="${photo.image}" class="button">Übung ansehen</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    fieldPlayersFilter.addEventListener('change', renderPhotos);
+    goaliesFilter.addEventListener('change', renderPhotos);
+    competencyFilter.addEventListener('change', renderPhotos);
+    difficultyFilter.addEventListener('change', renderPhotos);
+    fieldSizeFilter.addEventListener('change', renderPhotos);
+
+    renderPhotos();
+  </script>
+
+</body>
+</html>

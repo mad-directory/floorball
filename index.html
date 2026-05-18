@@ -258,6 +258,9 @@
     <div class="layout">
 
       <div class="sidebar">
+        <button onclick="showAllExercises()" style="margin-bottom:20px; background:#111827; color:white; width:100%;">
+          Alle Übungen
+        </button>
         <h2>Meine Listen</h2>
         <div id="listsContainer"></div>
       </div>
@@ -434,6 +437,7 @@ const photos = [
 ];
 
 let currentUser = null;
+let currentView = 'all';
 
 function login() {
   const username = document.getElementById('username').value.trim();
@@ -497,7 +501,14 @@ function renderPhotos() {
   const difficulty = difficultyFilter.value;
   const fieldSize = fieldSizeFilter.value;
 
-  const filtered = photos.filter(photo => {
+  let basePhotos = photos;
+
+  if(currentView !== 'all') {
+    const savedTitles = currentUser.lists[currentView];
+    basePhotos = photos.filter(photo => savedTitles.includes(photo.title));
+  }
+
+  const filtered = basePhotos.filter(photo => {
     return (
       (fieldPlayers === 'all' || photo.fieldPlayers == fieldPlayers) &&
       (goalies === 'all' || photo.goalies == goalies) &&
@@ -507,7 +518,11 @@ function renderPhotos() {
     );
   });
 
-  resultCount.textContent = `${filtered.length} Übungen gefunden`;
+  if(currentView === 'all') {
+    resultCount.textContent = `${filtered.length} Übungen gefunden`;
+  } else {
+    resultCount.textContent = `${filtered.length} Übungen in ${currentView}`;
+  }
 
   gallery.innerHTML = filtered.map(photo => {
 
@@ -515,32 +530,11 @@ function renderPhotos() {
       .map(list => `<option value="${list}">${list}</option>`)
       .join('');
 
-    return `
-      <div class="card">
+    let actionSection = '';
 
-        <img src="${photo.image}">
-
-        <div class="card-content">
-          <h3>${photo.title}</h3>
-
-          <div class="tags">
-            <div class="tag">${photo.fieldPlayers} Feldspieler</div>
-            <div class="tag">${photo.goalies} Goalies</div>
-            <div class="tag">Schwierigkeit ${photo.difficulty}</div>
-            <div class="tag">${photo.fieldSize}</div>
-          </div>
-
-          <p><strong>Kernkompetenz:</strong> ${photo.competency}</p>
-
-          <div class="save-section">
-            <select id="list-${photo.id}">
-              ${options}
-            </select>
-
-            <button class="save-btn" onclick="saveToList(${photo.id})">
-              Speichern
-            </button>
-          </div>
+    if(currentView === 'all') {
+      actionSection = `
+        ${actionSection}
 
         </div>
       </div>
@@ -568,7 +562,7 @@ function renderLists() {
 
   container.innerHTML = Object.entries(currentUser.lists)
     .map(([listName, items]) => `
-      <div class="list-box">
+      <div class="list-box" onclick="openList('${listName}')" style="cursor:pointer;">
         <h3>${listName}</h3>
 
         <ul>
@@ -586,6 +580,27 @@ goaliesFilter.addEventListener('change', renderPhotos);
 competencyFilter.addEventListener('change', renderPhotos);
 difficultyFilter.addEventListener('change', renderPhotos);
 fieldSizeFilter.addEventListener('change', renderPhotos);
+
+function openList(listName) {
+  currentView = listName;
+  renderPhotos();
+}
+
+function showAllExercises() {
+  currentView = 'all';
+  renderPhotos();
+}
+
+function removeFromList(photoId, listName) {
+
+  const photo = photos.find(p => p.id === photoId);
+
+  currentUser.lists[listName] = currentUser.lists[listName]
+    .filter(item => item !== photo.title);
+
+  renderLists();
+  renderPhotos();
+}
 
 </script>
 

@@ -1,0 +1,39 @@
+body {
+  font-family: Arial;
+  background: #f3f4f6;
+  margin: 0;
+}
+
+.login-box {
+  width: 350px;
+  margin: 100px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.sidebar, .content {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.exercise-card {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}

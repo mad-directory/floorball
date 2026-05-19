@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trainingsplattform</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loginPage" class="center">
+
+  <div class="login-box">
+
+    <h1>Trainingsplattform</h1>
+
+    <input type="text" id="username" placeholder="Benutzername">
+    <input type="password" id="password" placeholder="Passwort">
+
+    <button onclick="login()">
+      Login
+    </button>
+
+    <p id="error"></p>
+
+  </div>
+
+</div>
+
+<div id="app" class="hidden">
+
+  <header>
+
+    <div>
+      <h1>Trainingsplattform</h1>
+      <p id="currentUser"></p>
+    </div>
+
+  </header>
+
+  <div class="layout">
+
+    <aside>
+
+      <button class="main-btn" onclick="showAllExercises()">
+        Alle Übungen
+      </button>
+
+      <div class="new-list">
+
+        <input
+          type="text"
+          id="newListName"
+          placeholder="Neue Liste"
+        >
+
+        <button onclick="createList()">
+          Liste erstellen
+        </button>
+
+      </div>
+
+      <div id="listsContainer"></div>
+
+    </aside>
+
+    <main>
+
+      <div id="gallery"></div>
+
+    </main>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

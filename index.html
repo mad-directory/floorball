@@ -248,6 +248,7 @@
         competency: 'Spiele',
         difficulty: 7,
         fieldSize: 'KF'
+        text: '1a <br> 1b'
       },
       {
         title: 'Floorball-Tennis',
@@ -257,6 +258,7 @@
         competency: 'Spiele',
         difficulty: 6,
         fieldSize: 'KF'
+        text: '2a <br> 2b'
       },
       {
         title: 'Floorball-Tennis',
@@ -368,8 +370,8 @@
               <small>Kernkompetenz</small>
               <strong>${photo.competency}</strong>
             </div>
-
-            <a href="$(photo.image) + .html" class="button">Übung ansehen</a>
+            <summary>$(photo.text)</summary>
+            <a href="$(photo.image)" class="button">Übung ansehen</a>
           </div>
         </div>
       `).join('');

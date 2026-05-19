@@ -1,6 +1,16 @@
-<image src=".jpg" width="100%">
-  
-<ol style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+<style>
+  body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+</style>
+<image src="0001.jpg">
+<h1>Freischlag 1</h1>
+<h3>Material:</h3>
+<ul>
+  <li>a</li>
+  <li>b</li>
+</ul>
+<ol>
   <li>a</li>
   <li>b</li>
 </ol>
